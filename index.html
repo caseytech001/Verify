@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>GitHub Verification with Music Player</title>
+  <title>GitHub Verification with Space Music Player</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,76 +21,26 @@
       min-height: 100vh;
       font-family: 'Roboto', sans-serif;
       color: #fff;
-      background: linear-gradient(-45deg, #6a11cb, #2575fc, #4a00e0, #8e2de2);
-      background-size: 400% 400%;
-      animation: gradientAnimation 12s ease infinite;
+      background: #000;
       padding: 20px;
       position: relative;
       overflow-x: hidden;
     }
     
-    /* Animated background elements */
-    .bg-animation {
+    /* Space background with stars */
+    .space-background {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: -2;
+      background: linear-gradient(to bottom, #000000, #0a0a2a, #000000);
       overflow: hidden;
     }
     
-    .bg-circle {
+    .stars {
       position: absolute;
-      border-radius: 50%;
-      opacity: 0.15;
-      animation: float 20s infinite ease-in-out;
-      filter: blur(15px);
-    }
-    
-    .circle-1 {
-      width: 300px;
-      height: 300px;
-      background: #6a11cb;
-      top: 10%;
-      left: 5%;
-      animation-delay: 0s;
-      animation-duration: 25s;
-    }
-    
-    .circle-2 {
-      width: 200px;
-      height: 200px;
-      background: #2575fc;
-      top: 60%;
-      left: 80%;
-      animation-delay: 2s;
-      animation-duration: 20s;
-    }
-    
-    .circle-3 {
-      width: 250px;
-      height: 250px;
-      background: #4a00e0;
-      top: 30%;
-      left: 70%;
-      animation-delay: 4s;
-      animation-duration: 30s;
-    }
-    
-    .circle-4 {
-      width: 180px;
-      height: 180px;
-      background: #8e2de2;
-      top: 70%;
-      left: 10%;
-      animation-delay: 1s;
-      animation-duration: 22s;
-    }
-    
-    /* Moving particles */
-    .particles {
-      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
@@ -98,59 +48,127 @@
       z-index: -1;
     }
     
-    .particle {
+    .star {
       position: absolute;
-      background: rgba(255, 255, 255, 0.3);
+      background-color: white;
       border-radius: 50%;
-      animation: particleMove 15s infinite linear;
+      animation: twinkle linear infinite;
     }
     
-    @keyframes gradientAnimation {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    
+    /* Moving galaxies and nebulae */
+    .galaxy {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(25px);
+      opacity: 0.4;
+      animation: float 40s infinite ease-in-out;
+    }
+    
+    .galaxy-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #3a0ca3, #4361ee, #4cc9f0);
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+      animation-duration: 35s;
+    }
+    
+    .galaxy-2 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, #7209b7, #b5179e, #f72585);
+      top: 60%;
+      left: 80%;
+      animation-delay: 5s;
+      animation-duration: 40s;
+    }
+    
+    .galaxy-3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, #4cc9f0, #3a0ca3, #4361ee);
+      top: 30%;
+      left: 70%;
+      animation-delay: 10s;
+      animation-duration: 45s;
+    }
+    
+    .galaxy-4 {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, #f72585, #7209b7, #b5179e);
+      top: 70%;
+      left: 10%;
+      animation-delay: 15s;
+      animation-duration: 50s;
     }
     
     @keyframes float {
       0%, 100% {
-        transform: translateY(0) scale(1);
+        transform: translate(0, 0) rotate(0deg) scale(1);
+      }
+      25% {
+        transform: translate(50px, -40px) rotate(5deg) scale(1.1);
       }
       50% {
-        transform: translateY(-40px) scale(1.05);
+        transform: translate(-30px, 60px) rotate(-5deg) scale(0.9);
+      }
+      75% {
+        transform: translate(-60px, -30px) rotate(3deg) scale(1.05);
       }
     }
     
-    @keyframes particleMove {
+    /* Moving particles as shooting stars */
+    .shooting-stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    .shooting-star {
+      position: absolute;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0) 100%);
+      border-radius: 50%;
+      animation: shoot linear infinite;
+      opacity: 0;
+    }
+    
+    @keyframes shoot {
       0% {
-        transform: translateY(100vh) translateX(0) rotate(0deg);
+        transform: translate(0, 0) rotate(0deg);
         opacity: 0;
+        width: 0;
+      }
+      1% {
+        opacity: 1;
       }
       10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.4;
+        width: 150px;
       }
       100% {
-        transform: translateY(-100px) translateX(100px) rotate(360deg);
+        transform: translate(500px, 500px) rotate(45deg);
         opacity: 0;
+        width: 0;
       }
     }
     
     .container {
       text-align: center;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.6);
       padding: 40px 30px;
       max-width: 450px;
       width: 100%;
       border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
       animation: containerSlide 0.8s ease-out;
       backdrop-filter: blur(12px);
       position: relative;
@@ -178,12 +196,24 @@
       right: -2px;
       bottom: -2px;
       z-index: -1;
-      background: linear-gradient(45deg, #6a11cb, #2575fc, #4a00e0, #8e2de2);
+      background: linear-gradient(45deg, #3a0ca3, #4361ee, #4cc9f0, #7209b7);
       background-size: 400% 400%;
       animation: gradientAnimation 8s infinite;
       border-radius: 22px;
-      filter: blur(10px);
-      opacity: 0.6;
+      filter: blur(15px);
+      opacity: 0.3;
+    }
+    
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
     
     h2 {
@@ -192,7 +222,7 @@
       font-size: 28px;
       font-weight: 700;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      background: linear-gradient(to right, #fff, #c0b0ff);
+      background: linear-gradient(to right, #fff, #a5b4fc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -211,9 +241,9 @@
     }
     
     .input:focus {
-      border-color: rgba(157, 78, 221, 0.8);
+      border-color: rgba(165, 180, 252, 0.8);
       background: rgba(255, 255, 255, 0.12);
-      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+      box-shadow: 0 0 20px rgba(165, 180, 252, 0.4);
       transform: scale(1.02);
     }
     
@@ -227,11 +257,11 @@
       border-radius: 12px;
       cursor: pointer;
       margin-top: 25px;
-      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      background: linear-gradient(45deg, #3a0ca3, #4361ee);
       transition: all 0.4s;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 8px 30px rgba(106, 17, 203, 0.4);
+      box-shadow: 0 8px 30px rgba(58, 12, 163, 0.5);
       letter-spacing: 0.5px;
     }
     
@@ -251,14 +281,14 @@
     }
     
     .button:hover {
-      background: linear-gradient(45deg, #2575fc, #6a11cb);
+      background: linear-gradient(45deg, #4361ee, #3a0ca3);
       transform: translateY(-3px);
-      box-shadow: 0 12px 35px rgba(106, 17, 203, 0.6);
+      box-shadow: 0 12px 35px rgba(58, 12, 163, 0.7);
     }
     
     .button:active {
       transform: translateY(1px);
-      box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+      box-shadow: 0 4px 15px rgba(58, 12, 163, 0.4);
     }
     
     .button:disabled {
@@ -290,20 +320,20 @@
       font-weight: 600;
       color: white;
       border: none;
-      background: linear-gradient(45deg, #8e2de2, #4a00e0);
+      background: linear-gradient(45deg, #7209b7, #b5179e);
       border-radius: 10px;
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
       margin-top: 15px;
       transition: all 0.3s;
-      box-shadow: 0 6px 20px rgba(142, 45, 226, 0.4);
+      box-shadow: 0 6px 20px rgba(114, 9, 183, 0.5);
     }
     
     .fork-button:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(142, 45, 226, 0.6);
-      background: linear-gradient(45deg, #4a00e0, #8e2de2);
+      box-shadow: 0 8px 25px rgba(114, 9, 183, 0.7);
+      background: linear-gradient(45deg, #b5179e, #7209b7);
     }
     
     #statusMessage {
@@ -362,10 +392,10 @@
     
     /* Music Player Styles */
     .music-player {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.6);
       padding: 25px;
       border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       width: 100%;
@@ -383,12 +413,12 @@
       right: -2px;
       bottom: -2px;
       z-index: -1;
-      background: linear-gradient(45deg, #6a11cb, #2575fc, #4a00e0, #8e2de2);
+      background: linear-gradient(45deg, #3a0ca3, #4361ee, #4cc9f0, #7209b7);
       background-size: 400% 400%;
       animation: gradientAnimation 8s infinite;
       border-radius: 22px;
-      filter: blur(10px);
-      opacity: 0.6;
+      filter: blur(15px);
+      opacity: 0.3;
     }
     
     .now-playing {
@@ -403,7 +433,7 @@
       font-size: 24px;
       font-weight: 700;
       margin-bottom: 5px;
-      background: linear-gradient(to right, #fff, #c0b0ff);
+      background: linear-gradient(to right, #fff, #a5b4fc);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -427,7 +457,7 @@
       height: 60px;
       border-radius: 50%;
       border: none;
-      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      background: linear-gradient(45deg, #3a0ca3, #4361ee);
       color: white;
       font-size: 20px;
       cursor: pointer;
@@ -435,12 +465,12 @@
       justify-content: center;
       align-items: center;
       transition: all 0.3s;
-      box-shadow: 0 8px 20px rgba(106, 17, 203, 0.4);
+      box-shadow: 0 8px 20px rgba(58, 12, 163, 0.5);
     }
     
     .control-btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 10px 25px rgba(106, 17, 203, 0.6);
+      box-shadow: 0 10px 25px rgba(58, 12, 163, 0.7);
     }
     
     .control-btn:active {
@@ -451,7 +481,32 @@
       width: 70px;
       height: 70px;
       font-size: 24px;
-      background: linear-gradient(45deg, #8e2de2, #4a00e0);
+      background: linear-gradient(45deg, #7209b7, #b5179e);
+    }
+    
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #4361ee, #4cc9f0);
+      border-radius: 4px;
+      transition: width 0.1s linear;
+    }
+    
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
     }
     
     footer {
@@ -462,12 +517,12 @@
       width: 100%;
       max-width: 450px;
       border-radius: 10px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(5px);
     }
     
     footer a {
-      color: #c0b0ff;
+      color: #a5b4fc;
       text-decoration: none;
       transition: color 0.3s;
     }
@@ -480,16 +535,15 @@
 </head>
 
 <body>
-  <!-- Animated background elements -->
-  <div class="bg-animation">
-    <div class="bg-circle circle-1"></div>
-    <div class="bg-circle circle-2"></div>
-    <div class="bg-circle circle-3"></div>
-    <div class="bg-circle circle-4"></div>
+  <!-- Space background with stars -->
+  <div class="space-background">
+    <div class="stars" id="stars"></div>
+    <div class="galaxy galaxy-1"></div>
+    <div class="galaxy galaxy-2"></div>
+    <div class="galaxy galaxy-3"></div>
+    <div class="galaxy galaxy-4"></div>
+    <div class="shooting-stars" id="shooting-stars"></div>
   </div>
-  
-  <!-- Moving particles -->
-  <div class="particles" id="particles"></div>
 
   <div class="container">
     <div class="logo">
@@ -517,6 +571,15 @@
     <div class="song-title" id="currentSong">My Darling</div>
     <div class="artist" id="currentArtist">Mercedes</div>
     
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="time-display">
+      <span id="currentTime">0:00</span>
+      <span id="totalTime">0:00</span>
+    </div>
+    
     <div class="controls">
       <button class="control-btn" id="prevBtn">
         <i class="fas fa-step-backward"></i>
@@ -528,37 +591,67 @@
         <i class="fas fa-step-forward"></i>
       </button>
     </div>
+    
+    <audio id="audioPlayer"></audio>
   </div>
 
   <footer>
-    <p>© 2023 GitHub Verification | Made with <i class="fas fa-heart" style="color:#ff4d94"></i></p>
+    <p>© 2023-2030 GitHub Verification | Made with <i class="fas fa-heart" style="color:#f72585"></i></p>
   </footer>
 
   <script>
     const repoName = "CASEYRHODES-XMD";
 
-    // Create moving particles
-    function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      const particleCount = 40;
+    // Create stars for the background
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 200;
       
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
         
         // Random properties
-        const size = Math.random() * 6 + 2;
+        const size = Math.random() * 3;
         const posX = Math.random() * 100;
-        const delay = Math.random() * 15;
-        const duration = Math.random() * 10 + 15;
+        const posY = Math.random() * 100;
+        const duration = Math.random() * 5 + 5;
+        const delay = Math.random() * 5;
         
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}vw`;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.animationDuration = `${duration}s`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${posX}vw`;
+        star.style.top = `${posY}vh`;
+        star.style.animationDuration = `${duration}s`;
+        star.style.animationDelay = `${delay}s`;
         
-        particlesContainer.appendChild(particle);
+        starsContainer.appendChild(star);
+      }
+    }
+    
+    // Create shooting stars
+    function createShootingStars() {
+      const shootingStarsContainer = document.getElementById('shooting-stars');
+      const shootingStarCount = 15;
+      
+      for (let i = 0; i < shootingStarCount; i++) {
+        const shootingStar = document.createElement('div');
+        shootingStar.classList.add('shooting-star');
+        
+        // Random properties
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const duration = Math.random() * 5 + 10;
+        const delay = Math.random() * 20;
+        const height = Math.random() * 2 + 1;
+        
+        shootingStar.style.left = `${posX}vw`;
+        shootingStar.style.top = `${posY}vh`;
+        shootingStar.style.height = `${height}px`;
+        shootingStar.style.animationDuration = `${duration}s`;
+        shootingStar.style.animationDelay = `${delay}s`;
+        
+        shootingStarsContainer.appendChild(shootingStar);
       }
     }
     
@@ -636,53 +729,130 @@
 
     // Music Player Functionality
     const musicTracks = [
-      { title: "My Darling", artist: "Caseyrhodes" },
-      { title: "Midnight Sky", artist: "Aurora" },
-      { title: "Electric Dreams", artist: "Neon Wave" },
-      { title: "Starlight", artist: "Cosmic Harmony" },
-      { title: "Ocean Breeze", artist: "Summer Vibes" }
+      { 
+        title: "My Darling", 
+        artist: "Caseyrhodes",
+        url: "https://cdn.pixabay.com/download/audio/2022/01/20/audio_d167c8fa18.mp3?filename=electronic-future-beats-117997.mp3"
+      },
+      { 
+        title: "Space Dreams", 
+        artist: "Cosmic Waves",
+        url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_5e4fe67f0f.mp3?filename=chill-abstract-intention-12099.mp3"
+      },
+      { 
+        title: "Stellar Journey", 
+        artist: "Nebula",
+        url: "https://cdn.pixabay.com/download/audio/2021/10/25/audio_172d7c6e7c.mp3?filename=ambient-piano-amp-strings-1-10711.mp3"
+      },
+      { 
+        title: "Moonlight Sonata", 
+        artist: "Beethoven",
+        url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_5b738edc7d.mp3?filename=piano-moment-9835.mp3"
+      },
+      { 
+        title: "Galaxy Pulse", 
+        artist: "Interstellar",
+        url: "https://cdn.pixabay.com/download/audio/2022/10/25/audio_333cbfc9a6.mp3?filename=deep-ambient-music-114354.mp3"
+      }
     ];
 
     let currentTrackIndex = 0;
-    let isPlaying = true; // Start with music "playing"
+    let isPlaying = false;
+    let audio = document.getElementById('audioPlayer');
+    let progressBar = document.getElementById('progressBar');
+    let currentTimeEl = document.getElementById('currentTime');
+    let totalTimeEl = document.getElementById('totalTime');
 
     function updateTrackInfo() {
       document.getElementById('currentSong').textContent = musicTracks[currentTrackIndex].title;
       document.getElementById('currentArtist').textContent = musicTracks[currentTrackIndex].artist;
+      
+      // Set the audio source
+      audio.src = musicTracks[currentTrackIndex].url;
+      
+      // When metadata is loaded, update total time
+      audio.addEventListener('loadedmetadata', function() {
+        const totalMinutes = Math.floor(audio.duration / 60);
+        const totalSeconds = Math.floor(audio.duration % 60);
+        totalTimeEl.textContent = `${totalMinutes}:${totalSeconds < 10 ? '0' : ''}${totalSeconds}`;
+      });
+    }
+
+    function togglePlayPause() {
+      if (isPlaying) {
+        pauseAudio();
+      } else {
+        playAudio();
+      }
+    }
+
+    function playAudio() {
+      audio.play();
+      isPlaying = true;
+      const icon = document.getElementById('playPauseIcon');
+      icon.classList.remove('fa-play');
+      icon.classList.add('fa-pause');
+    }
+
+    function pauseAudio() {
+      audio.pause();
+      isPlaying = false;
+      const icon = document.getElementById('playPauseIcon');
+      icon.classList.remove('fa-pause');
+      icon.classList.add('fa-play');
     }
 
     function playNextTrack() {
       currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
       updateTrackInfo();
+      if (isPlaying) {
+        playAudio();
+      }
     }
 
     function playPrevTrack() {
       currentTrackIndex = (currentTrackIndex - 1 + musicTracks.length) % musicTracks.length;
       updateTrackInfo();
+      if (isPlaying) {
+        playAudio();
+      }
     }
 
-    function togglePlayPause() {
-      isPlaying = !isPlaying;
-      const icon = document.getElementById('playPauseIcon');
+    function updateProgress() {
+      const { currentTime, duration } = audio;
+      const progressPercent = (currentTime / duration) * 100;
+      progressBar.style.width = `${progressPercent}%`;
       
-      if (isPlaying) {
-        icon.classList.remove('fa-play');
-        icon.classList.add('fa-pause');
-      } else {
-        icon.classList.remove('fa-pause');
-        icon.classList.add('fa-play');
-      }
+      // Update current time display
+      const currentMinutes = Math.floor(currentTime / 60);
+      const currentSeconds = Math.floor(currentTime % 60);
+      currentTimeEl.textContent = `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds}`;
+    }
+
+    function setProgress(e) {
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      const duration = audio.duration;
+      audio.currentTime = (clickX / width) * duration;
     }
 
     // Initialize the page
     window.onload = function() {
-      createParticles();
+      createStars();
+      createShootingStars();
       document.getElementById("githubUsername").focus();
       
       // Set up music player event listeners
       document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
       document.getElementById('nextBtn').addEventListener('click', playNextTrack);
       document.getElementById('prevBtn').addEventListener('click', playPrevTrack);
+      
+      // Progress bar
+      audio.addEventListener('timeupdate', updateProgress);
+      document.getElementById('progressContainer').addEventListener('click', setProgress);
+      
+      // When audio ends, play next track
+      audio.addEventListener('ended', playNextTrack);
       
       // Initialize track info
       updateTrackInfo();
