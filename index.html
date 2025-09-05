@@ -491,6 +491,7 @@
       border-radius: 4px;
       margin-top: 20px;
       overflow: hidden;
+      cursor: pointer;
     }
     
     .progress-bar {
@@ -530,6 +531,34 @@
     footer a:hover {
       color: #fff;
       text-decoration: underline;
+    }
+
+    /* Volume control */
+    .volume-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 10px;
+    }
+
+    .volume-slider {
+      width: 100px;
+      -webkit-appearance: none;
+      height: 5px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      outline: none;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #4361ee;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -585,38 +614,43 @@
         <i class="fas fa-step-backward"></i>
       </button>
       <button class="control-btn play-pause" id="playPauseBtn">
-        <i class="fas fa-pause" id="playPauseIcon"></i>
+        <i class="fas fa-play" id="playPauseIcon"></i>
       </button>
       <button class="control-btn" id="nextBtn">
         <i class="fas fa-step-forward"></i>
       </button>
     </div>
+
+    <div class="volume-container">
+      <i class="fas fa-volume-up"></i>
+      <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+    </div>
     
-    <audio id="audioPlayer"></audio>
+    <audio id="audioPlayer" preload="metadata"></audio>
   </div>
 
   <footer>
-    <p>© 2023-2030 GitHub Verification | Made with <i class="fas fa-heart" style="color:#f72585"></i></p>
+    <p>© 2023 GitHub Verification | Made with <i class="fas fa-heart" style="color:#f72585"></i></p>
   </footer>
 
   <script>
     const repoName = "CASEYRHODES-XMD";
 
-    // Create stars for the background
+    // Create stars for the background (optimized for performance)
     function createStars() {
       const starsContainer = document.getElementById('stars');
-      const starCount = 200;
+      const starCount = 150; // Reduced for better performance
       
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
         
         // Random properties
-        const size = Math.random() * 3;
+        const size = Math.random() * 2 + 1; // Smaller stars for better performance
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
-        const duration = Math.random() * 5 + 5;
-        const delay = Math.random() * 5;
+        const duration = Math.random() * 3 + 3; // Faster animation
+        const delay = Math.random() * 2;
         
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
@@ -629,10 +663,10 @@
       }
     }
     
-    // Create shooting stars
+    // Create shooting stars (optimized)
     function createShootingStars() {
       const shootingStarsContainer = document.getElementById('shooting-stars');
-      const shootingStarCount = 15;
+      const shootingStarCount = 10; // Reduced for better performance
       
       for (let i = 0; i < shootingStarCount; i++) {
         const shootingStar = document.createElement('div');
@@ -641,9 +675,9 @@
         // Random properties
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
-        const duration = Math.random() * 5 + 10;
-        const delay = Math.random() * 20;
-        const height = Math.random() * 2 + 1;
+        const duration = Math.random() * 3 + 7; // Faster animation
+        const delay = Math.random() * 15;
+        const height = Math.random() * 1 + 1; // Thinner shooting stars
         
         shootingStar.style.left = `${posX}vw`;
         shootingStar.style.top = `${posY}vh`;
@@ -731,28 +765,13 @@
     const musicTracks = [
       { 
         title: "My Darling", 
-        artist: "Caseyrhodes",
-        url: "https://cdn.pixabay.com/download/audio/2022/01/20/audio_d167c8fa18.mp3?filename=electronic-future-beats-117997.mp3"
+        artist: "Mercedes",
+        url: "https://files.catbox.moe/oc1a5x.mp3"
       },
       { 
         title: "Space Dreams", 
         artist: "Cosmic Waves",
-        url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_5e4fe67f0f.mp3?filename=chill-abstract-intention-12099.mp3"
-      },
-      { 
-        title: "Stellar Journey", 
-        artist: "Nebula",
-        url: "https://cdn.pixabay.com/download/audio/2021/10/25/audio_172d7c6e7c.mp3?filename=ambient-piano-amp-strings-1-10711.mp3"
-      },
-      { 
-        title: "Moonlight Sonata", 
-        artist: "Beethoven",
-        url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_5b738edc7d.mp3?filename=piano-moment-9835.mp3"
-      },
-      { 
-        title: "Galaxy Pulse", 
-        artist: "Interstellar",
-        url: "https://cdn.pixabay.com/download/audio/2022/10/25/audio_333cbfc9a6.mp3?filename=deep-ambient-music-114354.mp3"
+        url: "https://files.catbox.moe/0aoqzx.mp3"
       }
     ];
 
@@ -762,6 +781,13 @@
     let progressBar = document.getElementById('progressBar');
     let currentTimeEl = document.getElementById('currentTime');
     let totalTimeEl = document.getElementById('totalTime');
+    let volumeSlider = document.getElementById('volumeSlider');
+
+    // Preload the first track for faster playback
+    function preloadTrack() {
+      audio.src = musicTracks[0].url;
+      audio.load();
+    }
 
     function updateTrackInfo() {
       document.getElementById('currentSong').textContent = musicTracks[currentTrackIndex].title;
@@ -775,7 +801,7 @@
         const totalMinutes = Math.floor(audio.duration / 60);
         const totalSeconds = Math.floor(audio.duration % 60);
         totalTimeEl.textContent = `${totalMinutes}:${totalSeconds < 10 ? '0' : ''}${totalSeconds}`;
-      });
+      }, { once: true });
     }
 
     function togglePlayPause() {
@@ -787,11 +813,18 @@
     }
 
     function playAudio() {
-      audio.play();
-      isPlaying = true;
-      const icon = document.getElementById('playPauseIcon');
-      icon.classList.remove('fa-play');
-      icon.classList.add('fa-pause');
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isPlaying = true;
+          const icon = document.getElementById('playPauseIcon');
+          icon.classList.remove('fa-play');
+          icon.classList.add('fa-pause');
+        }).catch(error => {
+          console.log("Playback failed:", error);
+        });
+      }
     }
 
     function pauseAudio() {
@@ -836,6 +869,10 @@
       audio.currentTime = (clickX / width) * duration;
     }
 
+    function setVolume() {
+      audio.volume = volumeSlider.value;
+    }
+
     // Initialize the page
     window.onload = function() {
       createStars();
@@ -851,8 +888,14 @@
       audio.addEventListener('timeupdate', updateProgress);
       document.getElementById('progressContainer').addEventListener('click', setProgress);
       
+      // Volume control
+      volumeSlider.addEventListener('input', setVolume);
+      
       // When audio ends, play next track
       audio.addEventListener('ended', playNextTrack);
+      
+      // Preload the first track for faster playback
+      preloadTrack();
       
       // Initialize track info
       updateTrackInfo();
