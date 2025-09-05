@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GitHub Verification with Music Player</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      background: linear-gradient(-45deg, #6a11cb, #2575fc, #4a00e0, #8e2de2);
+      background-size: 400% 400%;
+      animation: gradientAnimation 12s ease infinite;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Animated background elements */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+      animation: float 20s infinite ease-in-out;
+      filter: blur(15px);
+    }
+    
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      background: #6a11cb;
+      top: 10%;
+      left: 5%;
+      animation-delay: 0s;
+      animation-duration: 25s;
+    }
+    
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      background: #2575fc;
+      top: 60%;
+      left: 80%;
+      animation-delay: 2s;
+      animation-duration: 20s;
+    }
+    
+    .circle-3 {
+      width: 250px;
+      height: 250px;
+      background: #4a00e0;
+      top: 30%;
+      left: 70%;
+      animation-delay: 4s;
+      animation-duration: 30s;
+    }
+    
+    .circle-4 {
+      width: 180px;
+      height: 180px;
+      background: #8e2de2;
+      top: 70%;
+      left: 10%;
+      animation-delay: 1s;
+      animation-duration: 22s;
+    }
+    
+    /* Moving particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: particleMove 15s infinite linear;
+    }
+    
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-40px) scale(1.05);
+      }
+    }
+    
+    @keyframes particleMove {
+      0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100px) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    .container {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 40px 30px;
+      max-width: 450px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      animation: containerSlide 0.8s ease-out;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    @keyframes containerSlide {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      z-index: -1;
+      background: linear-gradient(45deg, #6a11cb, #2575fc, #4a00e0, #8e2de2);
+      background-size: 400% 400%;
+      animation: gradientAnimation 8s infinite;
+      border-radius: 22px;
+      filter: blur(10px);
+      opacity: 0.6;
+    }
+    
+    h2 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 28px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to right, #fff, #c0b0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 16px;
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      margin-top: 15px;
+      background: rgba(255, 255, 255, 0.08);
+      transition: all 0.3s;
+      outline: none;
+    }
+    
+    .input:focus {
+      border-color: rgba(157, 78, 221, 0.8);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+      transform: scale(1.02);
+    }
+    
+    .button {
+      width: 100%;
+      border: none;
+      padding: 18px;
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 25px;
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(106, 17, 203, 0.4);
+      letter-spacing: 0.5px;
+    }
+    
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+    
+    .button:hover::before {
+      left: 100%;
+    }
+    
+    .button:hover {
+      background: linear-gradient(45deg, #2575fc, #6a11cb);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(106, 17, 203, 0.6);
+    }
+    
+    .button:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+    }
+    
+    .button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .fork-section {
+      margin-top: 20px;
+      display: none;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fork-button {
+      padding: 14px 25px;
+      font-size: 15px;
+      font-weight: 600;
+      color: white;
+      border: none;
+      background: linear-gradient(45deg, #8e2de2, #4a00e0);
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(142, 45, 226, 0.4);
+    }
+    
+    .fork-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(142, 45, 226, 0.6);
+      background: linear-gradient(45deg, #4a00e0, #8e2de2);
+    }
+    
+    #statusMessage {
+      color: #fff;
+      font-weight: 500;
+      margin-top: 20px;
+      min-height: 24px;
+      transition: all 0.3s;
+      padding: 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .success {
+      color: #a3ffb8 !important;
+      background: rgba(36, 215, 128, 0.15) !important;
+    }
+    
+    .error {
+      color: #ff9e9e !important;
+      background: rgba(255, 0, 64, 0.15) !important;
+    }
+    
+    .logo {
+      font-size: 42px;
+      margin-bottom: 15px;
+      animation: pulse 2s infinite;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+    
+    /* Music Player Styles */
+    .music-player {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .music-player::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      z-index: -1;
+      background: linear-gradient(45deg, #6a11cb, #2575fc, #4a00e0, #8e2de2);
+      background-size: 400% 400%;
+      animation: gradientAnimation 8s infinite;
+      border-radius: 22px;
+      filter: blur(10px);
+      opacity: 0.6;
+    }
+    
+    .now-playing {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .song-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      background: linear-gradient(to right, #fff, #c0b0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .artist {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 25px;
+    }
+    
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .control-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s;
+      box-shadow: 0 8px 20px rgba(106, 17, 203, 0.4);
+    }
+    
+    .control-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 25px rgba(106, 17, 203, 0.6);
+    }
+    
+    .control-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .play-pause {
+      width: 70px;
+      height: 70px;
+      font-size: 24px;
+      background: linear-gradient(45deg, #8e2de2, #4a00e0);
+    }
+    
+    footer {
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 15px;
+      width: 100%;
+      max-width: 450px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
+    }
+    
+    footer a {
+      color: #c0b0ff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    footer a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Animated background elements -->
+  <div class="bg-animation">
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+    <div class="bg-circle circle-3"></div>
+    <div class="bg-circle circle-4"></div>
+  </div>
+  
+  <!-- Moving particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <div class="logo">
+      <i class="fab fa-github"></i>
+    </div>
+    <h2>GitHub Verification</h2>
+    <form onsubmit="return handleUsernameInput(event);">
+      <input placeholder="Enter Your GitHub Username" class="input" id="githubUsername" type="text" required>
+      <button class="button" type="submit" id="deployButton">
+        <i class="fas fa-check-circle"></i> Verify & Continue
+      </button>
+    </form>
+    <div id="statusMessage"></div>
+    <div id="forkSection" class="fork-section">
+      <p>Make sure you have the latest forked version of the repository.</p>
+      <a href="https://github.com/caseyweb/CASEYRHODES-XMD/fork" target="_blank" class="fork-button">
+        <i class="fas fa-code-branch"></i> Fork Repository
+      </a>
+    </div>
+  </div>
+
+  <!-- Music Player -->
+  <div class="music-player">
+    <div class="now-playing">NOW PLAYING</div>
+    <div class="song-title" id="currentSong">My Darling</div>
+    <div class="artist" id="currentArtist">Mercedes</div>
+    
+    <div class="controls">
+      <button class="control-btn" id="prevBtn">
+        <i class="fas fa-step-backward"></i>
+      </button>
+      <button class="control-btn play-pause" id="playPauseBtn">
+        <i class="fas fa-pause" id="playPauseIcon"></i>
+      </button>
+      <button class="control-btn" id="nextBtn">
+        <i class="fas fa-step-forward"></i>
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2023 GitHub Verification | Made with <i class="fas fa-heart" style="color:#ff4d94"></i></p>
+  </footer>
+
+  <script>
+    const repoName = "CASEYRHODES-XMD";
+
+    // Create moving particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 40;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 6 + 2;
+        const posX = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 10 + 15;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}vw`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Check if GitHub repository exists
+    async function doesGitHubRepoExist(owner, repo) {
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}`;
+      try {
+        const response = await fetch(apiUrl);
+        return response.status === 200;
+      } catch (error) {
+        console.error(`Error checking GitHub repository: ${error.message}`);
+        return false;
+      }
+    }
+
+    function handleUsernameInput(event) {
+      event.preventDefault();
+      
+      const usernameInput = document.getElementById("githubUsername");
+      const username = usernameInput.value.trim();
+      const statusMessage = document.getElementById("statusMessage");
+      const forkSection = document.getElementById("forkSection");
+      const deployButton = document.getElementById("deployButton");
+
+      // Reset UI state
+      statusMessage.textContent = "";
+      statusMessage.className = "";
+      forkSection.style.display = "none";
+      
+      if (!username) {
+        statusMessage.textContent = "Please enter a valid GitHub username!";
+        statusMessage.className = "error";
+        return false;
+      }
+
+      checkAndDeploy(username);
+      return false;
+    }
+
+    async function checkAndDeploy(username) {
+      const statusMessage = document.getElementById("statusMessage");
+      const forkSection = document.getElementById("forkSection");
+      const deployButton = document.getElementById("deployButton");
+      
+      // Show loading state
+      deployButton.disabled = true;
+      statusMessage.innerHTML = '<span class="loading"></span> Verifying your repository...';
+      statusMessage.className = "";
+
+      try {
+        const repoExists = await doesGitHubRepoExist(username, repoName);
+
+        if (repoExists) {
+          statusMessage.innerHTML = '<i class="fas fa-check-circle"></i> Verification successful! Redirecting...';
+          statusMessage.className = "success";
+          
+          // Short delay to show success message
+          setTimeout(() => {
+            const herokuURL = `https://dashboard.heroku.com/new-app?template=https://github.com/${username}/${repoName}`;
+            window.location.href = herokuURL;
+          }, 1500);
+        } else {
+          statusMessage.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Repository not found. Please fork the repository first.';
+          statusMessage.className = "error";
+          forkSection.style.display = "block";
+        }
+      } catch (error) {
+        statusMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error during verification. Please try again.';
+        statusMessage.className = "error";
+        console.error("Error:", error);
+      } finally {
+        deployButton.disabled = false;
+      }
+    }
+
+    // Music Player Functionality
+    const musicTracks = [
+      { title: "My Darling", artist: "Caseyrhodes" },
+      { title: "Midnight Sky", artist: "Aurora" },
+      { title: "Electric Dreams", artist: "Neon Wave" },
+      { title: "Starlight", artist: "Cosmic Harmony" },
+      { title: "Ocean Breeze", artist: "Summer Vibes" }
+    ];
+
+    let currentTrackIndex = 0;
+    let isPlaying = true; // Start with music "playing"
+
+    function updateTrackInfo() {
+      document.getElementById('currentSong').textContent = musicTracks[currentTrackIndex].title;
+      document.getElementById('currentArtist').textContent = musicTracks[currentTrackIndex].artist;
+    }
+
+    function playNextTrack() {
+      currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+      updateTrackInfo();
+    }
+
+    function playPrevTrack() {
+      currentTrackIndex = (currentTrackIndex - 1 + musicTracks.length) % musicTracks.length;
+      updateTrackInfo();
+    }
+
+    function togglePlayPause() {
+      isPlaying = !isPlaying;
+      const icon = document.getElementById('playPauseIcon');
+      
+      if (isPlaying) {
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+      } else {
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+      }
+    }
+
+    // Initialize the page
+    window.onload = function() {
+      createParticles();
+      document.getElementById("githubUsername").focus();
+      
+      // Set up music player event listeners
+      document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+      document.getElementById('nextBtn').addEventListener('click', playNextTrack);
+      document.getElementById('prevBtn').addEventListener('click', playPrevTrack);
+      
+      // Initialize track info
+      updateTrackInfo();
+    };
+  </script>
+</body>
+</html>
